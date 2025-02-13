@@ -37,7 +37,7 @@ foreach ($cycles as $cycle) {
     // For each cycle, predict the next one
     $predictedDates = predictNextCycle($cycle["start_date"], $cycle["end_date"]);
     $predictions[] = [
-        'name' => $cycle["name"], // Add the cycle name to predictions
+        'name' => $cycle["name"], // Include cycle name
         'predicted_start' => $predictedDates[0],
         'predicted_end' => $predictedDates[1]
     ];
