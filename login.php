@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (password_verify($password, $user["password_hash"])) {
         $_SESSION["user_id"] = $user["user_id"];
         $_SESSION["name"] = $user["name"];
-        header("Location: index.php.php");
+        header("Location: index.php");
         exit();
     } else {
         die("<div class='alert alert-danger' role='alert'>Incorrect password. Please try again.</div>");
