@@ -38,40 +38,100 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #333;
+            background-color: #f7f7f7;
             font-family: 'Arial', sans-serif;
-            color: #fff;
+            color: #333;
         }
         .container {
             max-width: 500px;
             padding: 40px;
             margin-top: 80px;
-            background-color: #444;
+            background-color: #fff;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         h2 {
             text-align: center;
             margin-bottom: 30px;
             font-size: 32px;
             font-weight: bold;
-            color: #ff9900;
+            color: #5f6368;
         }
         .catchy-phrase {
             text-align: center;
-            font-size: 48px;
+            font-size: 42px;
             font-weight: bold;
-            color: #ff5733;
-            margin-bottom: 30px;
+            color: #ff5722;
+            margin-bottom: 20px;
         }
         .slogan {
             text-align: center;
             margin-top: 15px;
             font-size: 18px;
             font-style: italic;
-            color: #c2c2c2;
+            color: #757575;
         }
         input[type="email"], input[type="password"] {
-            background-color: #333;
+            background-color: #f7f7f7;
+            color: #333;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        input[type="email"]:focus, input[type="password"]:focus {
+            border-color: #ff5722;
+            background-color: #ffffff;
+            outline: none;
+        }
+        .btn-success {
+            background-color: #ff5722;
+            border-color: #ff5722;
             color: #fff;
-            border: 2px s
+        }
+        .btn-success:hover {
+            background-color: #ff7043;
+            border-color: #ff7043;
+        }
+        .btn {
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+        p {
+            color: #757575;
+        }
+        .form-control {
+            background-color: #f7f7f7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Catchy Phrase moved above login -->
+        <div class="catchy-phrase">
+            <p>Man Cave</p>
+        </div>
+        
+        <h2>Login</h2>
+        <form method="post">
+            <div class="mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Login</button>
+        </form>
+        <p class="mt-3 text-center">Don't have an account? <a href="register.php" style="color: #ff5722;">Sign up here</a></p>
+        
+        <!-- Slogan -->
+        <div class="slogan">
+            <p>Never feed a cow that doesn't feed you grass!</p>
+        </div>
+    </div>
+
+</body>
+</html>
