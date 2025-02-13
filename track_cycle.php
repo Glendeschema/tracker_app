@@ -10,11 +10,12 @@ if (!isset($_SESSION["user_id"])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $start_date = $_POST["start_date"];
     $end_date = $_POST["end_date"];
-    $flow_intensity = $_POST["flow_intensity"];
+    $name = $_POST["name"];  // Add name input field
     $user_id = $_SESSION["user_id"];
 
-    $stmt = $pdo->prepare("INSERT INTO Cycles (user_id, start_date, end_date, flow_intensity) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$user_id, $start_date, $end_date, $flow_intensity]);
+    // Insert the new cycle with the name field
+    $stmt = $pdo->prepare("INSERT INTO Cycles (user_id, start_date, end_date, name) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$user_id, $start_date, $end_date, $name]);
 
     header("Location: index.php");
 }
@@ -33,12 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="date" name="start_date" class="form-control" required><br>
         <label>End Date:</label>
         <input type="date" name="end_date" class="form-control" required><br>
-        <label>Flow Intensity:</label>
-        <select name="flow_intensity" class="form-control">
-            <option value="Light">Light</option>
-            <option value="Medium">Medium</option>
-            <option value="Heavy">Heavy</option>
-        </select><br>
+        <label>Cycle Name:</label>  <!-- New field for entering the cycle's name -->
+        <input type="text" name="name" class="form-control" placeholder="Enter a name for this cycle" required><br>
         <button type="submit" class="btn btn-success">Save</button>
     </form>
 </body>
