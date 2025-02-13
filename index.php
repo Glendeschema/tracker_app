@@ -33,11 +33,15 @@ $cycles = $stmt->fetchAll();
                 $end_date = new DateTime($cycle['end_date']);
                 $cycle_length = $start_date->diff($end_date)->days; // Cycle length in days
 
+                // Menstrual cycle length: We assume a typical 28-day cycle for prediction.
+                // You can adjust this logic by using the calculated cycle_length from previous cycles.
+                $predicted_cycle_length = 28; // Default to 28 days as an example for the prediction
+
                 // Predict next cycle start and end dates
                 $last_cycle_end = new DateTime($cycle['end_date']);
-                $next_cycle_start = $last_cycle_end->add(new DateInterval('P' . $cycle_length . 'D'));  // Add cycle length in days
+                $next_cycle_start = $last_cycle_end->add(new DateInterval('P' . $predicted_cycle_length . 'D'));  // Add cycle length in days
                 $next_cycle_end = clone $next_cycle_start;
-                $next_cycle_end->add(new DateInterval('P' . $cycle_length . 'D'));  // Add cycle length again for end date
+                $next_cycle_end->add(new DateInterval('P' . $predicted_cycle_length . 'D'));  // Add cycle length again for end date
             ?>
 
             <li>
