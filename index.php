@@ -22,7 +22,8 @@ $cycles = $stmt->fetchAll();
 <body class="container">
     <h2>Welcome, <?= $_SESSION["name"] ?>!</h2>
     <a href="track_cycle.php" class="btn btn-primary">Track Cycle</a>
-    <a href="predicted_cycles.php" class="btn btn-info">View Predicted Cycles</a>
+    <a href="predicted_cycles.php" class="btn btn-primary">View Predicted Cycles</a>
+
 
     <a href="logout.php" class="btn btn-danger">Logout</a>
 
