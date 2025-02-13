@@ -61,6 +61,7 @@ $cycles = $stmt->fetchAll();
                 <?= $cycle["start_date"] ?> - <?= $cycle["end_date"] ?> (<?= $cycle["flow_intensity"] ?>)<br>
                 <strong>Predicted Next Cycle:</strong> <?= $next_cycle_start->format('Y-m-d') ?> to <?= $next_cycle_end->format('Y-m-d') ?>
                 <a href="index.php?delete_cycle_id=<?= $cycle['cycle_id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this cycle?')">Delete</a>
+                <a href="edit_cycle.php?cycle_id=<?= $cycle['cycle_id'] ?>" class="btn btn-warning btn-sm">Edit</a>
             </li>
         <?php endforeach; ?>
     </ul>
