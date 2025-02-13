@@ -2,6 +2,7 @@
 include 'db.php';
 session_start();
 
+// Check if the user is logged in
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit;
@@ -10,7 +11,7 @@ if (!isset($_SESSION["user_id"])) {
 $user_id = $_SESSION["user_id"];
 
 // Fetch the user's recent cycles to predict the next cycle
-$stmt = $pdo->prepare("SELECT * FROM Cycles WHERE user_id = ? ORDER BY start_date DESC LIMIT 5");
+$stmt = $pdo->prepare("SELECT TOP 5 * FROM Cycles WHERE user_id = ? ORDER BY start_date DESC");
 $stmt->execute([$user_id]);
 $cycles = $stmt->fetchAll();
 
@@ -33,8 +34,8 @@ function predictNextCycle($lastCycleStartDate, $lastCycleEndDate) {
 
 $predictions = [];
 
+// Process each cycle and predict the next one
 foreach ($cycles as $cycle) {
-    // For each cycle, predict the next one
     $predictedDates = predictNextCycle($cycle["start_date"], $cycle["end_date"]);
     $predictions[] = [
         'name' => $cycle["name"], // Include cycle name
@@ -42,6 +43,7 @@ foreach ($cycles as $cycle) {
         'predicted_end' => $predictedDates[1]
     ];
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -56,11 +58,15 @@ foreach ($cycles as $cycle) {
 
     <h3>Recent Cycles and Their Predicted Next Cycles</h3>
     <ul>
-        <?php foreach ($predictions as $prediction) : ?>
-            <li>
-                <strong><?= $prediction['name'] ?></strong> (<?= $prediction['predicted_start'] ?> - <?= $prediction['predicted_end'] ?>)
-            </li> <!-- Display cycle name and predicted dates -->
-        <?php endforeach; ?>
+        <?php if (count($predictions) > 0) : ?>
+            <?php foreach ($predictions as $prediction) : ?>
+                <li>
+                    <strong><?= htmlspecialchars($prediction['name']) ?></strong> (<?= $prediction['predicted_start'] ?> - <?= $prediction['predicted_end'] ?>)
+                </li>
+            <?php endforeach; ?>
+        <?php else : ?>
+            <li>No cycles found for prediction.</li>
+        <?php endif; ?>
     </ul>
 </body>
 </html>
