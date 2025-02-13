@@ -9,6 +9,17 @@ if (!isset($_SESSION["user_id"])) {
 
 $user_id = $_SESSION["user_id"];
 $filter_name = $_GET['name'] ?? '';  // Get name filter
+$filter_months = $_GET['months'] ?? 3;  // Get month filter (default 3 months)
+
+// Fetch all unique names for the logged-in user
+$stmt = $pdo->prepare("SELECT DISTINCT name FROM Cycles WHERE user_id = ? ORDER BY name ASC");
+$stmt->execute([$user_id]);
+$names = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+// Fetch the months that are available based on the user's cycles
+$stmt = $pdo->prepare("SELECT DISTINCT MONTH(start_date) as month FROM Cycles WHERE user_id = ? ORDER BY month ASC");
+$stmt->execute([$user_id]);
+$availableMonths = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
 // Fetch all user's recent cycles
 $query = "SELECT * FROM Cycles WHERE user_id = ? ";
@@ -63,11 +74,24 @@ foreach ($cycles as $cycle) {
     <h2>Predicted Cycles</h2>
     <a href="index.php" class="btn btn-primary">Back to Dashboard</a>
 
+    <!-- Filter Form -->
     <form method="get" class="mb-3">
         <label>Filter by Name:</label>
-        <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($filter_name) ?>" placeholder="Enter name">
+        <select name="name" class="form-control">
+            <option value="">-- Select Name --</option>
+            <?php foreach ($names as $name) : ?>
+                <option value="<?= htmlspecialchars($name) ?>" <?= ($filter_name == $name) ? 'selected' : '' ?>><?= htmlspecialchars($name) ?></option>
+            <?php endforeach; ?>
+        </select>
 
-        <button type="submit" class="btn btn-info mt-2">Filter</button>
+        <label>Filter by Month:</label>
+        <select name="months" class="form-control mb-2">
+            <option value="1" <?= ($filter_months == 1) ? 'selected' : '' ?>>1 Month</option>
+            <option value="3" <?= ($filter_months == 3) ? 'selected' : '' ?>>3 Months</option>
+            <option value="6" <?= ($filter_months == 6) ? 'selected' : '' ?>>6 Months</option>
+        </select>
+
+        <button type="submit" class="btn btn-info mt-2">Apply Filters</button>
     </form>
 
     <h3>Predictions</h3>
@@ -76,24 +100,11 @@ foreach ($cycles as $cycle) {
     <?php else : ?>
         <?php foreach ($predictions as $name => $cycleList) : ?>
             <h4><?= htmlspecialchars($name) ?></h4>
-            <form method="get">
-                <label>Predict for (months) for <?= htmlspecialchars($name) ?>:</label>
-                <input type="hidden" name="name" value="<?= htmlspecialchars($name) ?>">
-                <select name="months" class="form-control mb-2">
-                    <option value="1">1 Month</option>
-                    <option value="3">3 Months</option>
-                    <option value="6">6 Months</option>
-                </select>
-                <button type="submit" class="btn btn-primary mb-3">Show Predictions</button>
-            </form>
             <ul>
                 <?php
-                // Default to 3 months if no filter is set
-                $months = $_GET['months'] ?? 3;
-
                 // Predict for the selected number of months
                 foreach ($cycleList as $cycle) {
-                    $predictedDates = predictNextCycles($cycle["start_date"], $cycle["end_date"], $months);
+                    $predictedDates = predictNextCycles($cycle["start_date"], $cycle["end_date"], $filter_months);
                     foreach ($predictedDates as $dates) {
                         echo "<li>{$dates['start']} to {$dates['end']}</li>";
                     }
