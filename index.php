@@ -35,9 +35,9 @@ $cycles = $stmt->fetchAll();
 
                 // Predict next cycle start and end dates
                 $last_cycle_end = new DateTime($cycle['end_date']);
-                $next_cycle_start = $last_cycle_end->add(new DateInterval('P' . $cycle_length . 'D'));
+                $next_cycle_start = $last_cycle_end->add(new DateInterval('P' . $cycle_length . 'D'));  // Add cycle length in days
                 $next_cycle_end = clone $next_cycle_start;
-                $next_cycle_end->add(new DateInterval('P' . $cycle_length . 'D'));
+                $next_cycle_end->add(new DateInterval('P' . $cycle_length . 'D'));  // Add cycle length again for end date
             ?>
 
             <li>
