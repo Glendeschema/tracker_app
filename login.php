@@ -38,59 +38,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #333;
             font-family: 'Arial', sans-serif;
+            color: #fff;
         }
         .container {
             max-width: 500px;
-            padding: 30px;
-            margin-top: 50px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin-top: 80px;
+            background-color: #444;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
         h2 {
             text-align: center;
             margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #ff9900;
         }
         .catchy-phrase {
             text-align: center;
-            margin-top: 20px;
-            font-size: 18px;
+            font-size: 48px;
             font-weight: bold;
-            color: #28a745;
+            color: #ff5733;
+            margin-bottom: 30px;
         }
         .slogan {
             text-align: center;
-            margin-top: 10px;
-            font-size: 16px;
-            color: #6c757d;
+            margin-top: 15px;
+            font-size: 18px;
+            font-style: italic;
+            color: #c2c2c2;
         }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <h2>Login</h2>
-        <form method="post">
-            <div class="mb-3">
-                <input type="email" name="email" class="form-control" placeholder="Email" required>
-            </div>
-            <div class="mb-3">
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
-            </div>
-            <button type="submit" class="btn btn-success w-100">Login</button>
-        </form>
-        <p class="mt-3 text-center">Don't have an account? <a href="register.php">Sign up here</a></p>
-        
-        <!-- Catchy Phrase and Slogan -->
-        <div class="catchy-phrase">
-            <p>Man Cave APP</p>
-        </div>
-        <div class="slogan">
-            <p>Never feed a cow that doesn't feed you grass!</p>
-        </div>
-    </div>
-
-</body>
-</html>
+        input[type="email"], input[type="password"] {
+            background-color: #333;
+            color: #fff;
+            border: 2px s
