@@ -38,5 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="name" class="form-control" placeholder="Enter a name for this cycle" required><br>
         <button type="submit" class="btn btn-success">Save</button>
     </form>
+    <a href="index.php" class="btn btn-secondary mt-3">Back to Dashboard</a>
+
 </body>
 </html>
