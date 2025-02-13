@@ -2,37 +2,44 @@
 include 'db.php';
 session_start();
 
-// Ensure user is logged in
 if (!isset($_SESSION["user_id"])) {
     header("Location: login.php");
     exit;
 }
 
 $user_id = $_SESSION["user_id"];
-$cycle_id = $_GET['id'] ?? null;
+$cycle_id = isset($_GET['id']) ? $_GET['id'] : null;
 
-// Fetch cycle details
 if ($cycle_id) {
-    $stmt = $pdo->prepare("SELECT * FROM Cycles WHERE id = ? AND user_id = ?");
-    $stmt->execute([$cycle_id, $user_id]);
-    $cycle = $stmt->fetch();
+    // Fetch the cycle to be edited
+    $stmt = $pdo->prepare("SELECT * FROM Cycles WHERE user_id = ? AND id = ?");
+    $stmt->execute([$user_id, $cycle_id]);
+    $cycle = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // If cycle doesn't exist, redirect
     if (!$cycle) {
-        die("Cycle not found.");
+        header("Location: index.php");
+        exit;
     }
-}
 
-// Handle update request
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST["name"];
-    $start_date = $_POST["start_date"];
-    $end_date = $_POST["end_date"];
+    // Calculate the default end date (+7 days from start date)
+    $start_date = new DateTime($cycle["start_date"]);
+    $start_date->modify('+7 days');
+    $end_date = $start_date->format('Y-m-d');
 
-    $stmt = $pdo->prepare("UPDATE Cycles SET name = ?, start_date = ?, end_date = ? WHERE id = ? AND user_id = ?");
-    $stmt->execute([$name, $start_date, $end_date, $cycle_id, $user_id]);
-
-    header("Location: index.php");
-    exit;
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $new_start_date = $_POST["start_date"];
+        $new_end_date = $_POST["end_date"];
+        $flow_intensity = $_POST["flow_intensity"];
+        
+        // Update the cycle in the database
+        $stmt = $pdo->prepare("UPDATE Cycles SET start_date = ?, end_date = ?, flow_intensity = ? WHERE id = ?");
+        $stmt->execute([$new_start_date, $new_end_date, $flow_intensity, $cycle_id]);
+        
+        // Redirect to the dashboard after update
+        header("Location: index.php");
+        exit;
+    }
 }
 ?>
 
@@ -43,16 +50,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body class="container">
-    <h2>Edit Cycle</h2>
+    <h2>Edit Menstrual Cycle</h2>
     <form method="post">
-        <label>Name:</label>
-        <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($cycle['name']) ?>" required><br>
         <label>Start Date:</label>
-        <input type="date" name="start_date" class="form-control" value="<?= $cycle['start_date'] ?>" required><br>
+        <input type="date" name="start_date" class="form-control" value="<?= $cycle["start_date"] ?>" required><br>
         <label>End Date:</label>
-        <input type="date" name="end_date" class="form-control" value="<?= $cycle['end_date'] ?>" required><br>
-        <button type="submit" class="btn btn-success">Update</button>
-        <a href="index.php" class="btn btn-secondary">Cancel</a>
+        <input type="date" name="end_date" class="form-control" value="<?= $end_date ?>" required><br>
+        <label>Flow Intensity:</label>
+        <select name="flow_intensity" class="form-control">
+            <option value="Light" <?= $cycle["flow_intensity"] == "Light" ? 'selected' : '' ?>>Light</option>
+            <option value="Medium" <?= $cycle["flow_intensity"] == "Medium" ? 'selected' : '' ?>>Medium</option>
+            <option value="Heavy" <?= $cycle["flow_intensity"] == "Heavy" ? 'selected' : '' ?>>Heavy</option>
+        </select><br>
+        <button type="submit" class="btn btn-success">Save</button>
     </form>
 </body>
 </html>
