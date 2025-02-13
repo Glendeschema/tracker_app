@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user && password_verify($password, $user["password_hash"])) {
         $_SESSION["user_id"] = $user["user_id"];
         $_SESSION["name"] = $user["name"];
-        header("Location: tracker_cycle.php");
+        header("Location: track_cycle.php");
     } else {
         echo "Invalid credentials.";
     }
