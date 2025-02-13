@@ -1,6 +1,6 @@
 <?php
 // Database configuration
-$serverName = "lesegostore.database.windows.net,1433";
+$serverName = "tcp:lesegostore.database.windows.net,1433";
 $database = "AdventureWorksLT2022";
 $username = "lesego";
 $password = "Mpotu@2025";
