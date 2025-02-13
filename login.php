@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user && password_verify($password, $user["password_hash"])) {
         $_SESSION["user_id"] = $user["user_id"];
         $_SESSION["name"] = $user["name"];
-        header("Location: index.php");
+        header("Location: tracker_cycle.php");
     } else {
         echo "Invalid credentials.";
     }
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body class="container">
     <h2>Login</h2>
-    <form method="post" action="track_cycle.php">
+    <form method="post">
         <input type="email" name="email" class="form-control" placeholder="Email" required><br>
         <input type="password" name="password" class="form-control" placeholder="Password" required><br>
         <button type="submit" class="btn btn-success">Login</button>
