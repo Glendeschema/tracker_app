@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION["name"] = $user["name"];
 
         // Redirect to track_cycle.php
-        header("Location: track_cycle.php");
+        header("Location: index.php");
         exit();
     } else {
         echo "Incorrect password. Please try again.";
