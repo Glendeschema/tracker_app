@@ -1,13 +1,16 @@
 <?php
-$host = "lesegostore.database.windows.net";
-$dbname = "AdventureWorksLT2022";
-$username = "lesego";
-$password = "Mpotu@2025";
-
+// PHP Data Objects(PDO) Sample Code:
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
+    $conn = new PDO("sqlsrv:server = tcp:lesegostore.database.windows.net,1433; Database = AdventureWorksLT2022", "lesego", "Mpotu@2025");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
+catch (PDOException $e) {
+    print("Error connecting to SQL Server.");
+    die(print_r($e));
+}
+
+// SQL Server Extension Sample Code:
+$connectionInfo = array("UID" => "lesego", "pwd" => "{your_password_here}", "Database" => "AdventureWorksLT2022", "LoginTimeout" => 30, "Encrypt" => 1, "TrustServerCertificate" => 0);
+$serverName = "tcp:lesegostore.database.windows.net,1433";
+$conn = sqlsrv_connect($serverName, $connectionInfo);
 ?>
