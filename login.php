@@ -53,6 +53,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             text-align: center;
             margin-bottom: 30px;
         }
+        .catchy-phrase {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #28a745;
+        }
+        .slogan {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
@@ -69,6 +82,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit" class="btn btn-success w-100">Login</button>
         </form>
         <p class="mt-3 text-center">Don't have an account? <a href="register.php">Sign up here</a></p>
+        
+        <!-- Catchy Phrase and Slogan -->
+        <div class="catchy-phrase">
+            <p>Man Cave APP</p>
+        </div>
+        <div class="slogan">
+            <p>Never feed a cow that doesn't feed you grass!</p>
+        </div>
     </div>
 
 </body>
