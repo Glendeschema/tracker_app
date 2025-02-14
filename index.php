@@ -58,7 +58,8 @@ $cycles = $stmt->fetchAll();
 
 
                         <form method="post" style="display:inline;">
-                            <input type="hidden" name="delete_id" value="<?= $cycle['id'] ?>">
+                            <input type="hidden" name="delete_id" value="<?= $cycle['cycle_id'] ?>">
+
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this cycle?')">Delete</button>
                         </form>
                     </td>
