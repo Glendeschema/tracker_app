@@ -57,11 +57,11 @@ $cycles = $stmt->fetchAll();
                         <a href="edit_cycle.php?cycle_id=<?= urlencode($cycle['cycle_id']) ?>" class="btn btn-warning btn-sm">Edit</a>
 
 
-                        <form method="post" style="display:inline;">
+                        <form method="post" action="delete_cycle.php" style="display:inline;">
                             <input type="hidden" name="delete_id" value="<?= $cycle['cycle_id'] ?>">
-
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this cycle?')">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this cycle?')">Delete</button>
                         </form>
+
                     </td>
                 </tr>
             <?php endforeach; ?>
