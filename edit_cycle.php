@@ -11,15 +11,18 @@ if (!isset($_SESSION["user_id"])) {
 $user_id = $_SESSION["user_id"];
 $cycle_id = $_GET['id'] ?? null;
 
-// Fetch cycle details
-if ($cycle_id) {
-    $stmt = $pdo->prepare("SELECT * FROM Cycles WHERE id = ? AND user_id = ?");
-    $stmt->execute([$cycle_id, $user_id]);
-    $cycle = $stmt->fetch();
+// Ensure ID is provided
+if (!$cycle_id) {
+    die("Invalid request. No cycle ID provided.");
+}
 
-    if (!$cycle) {
-        die("Cycle not found.");
-    }
+// Fetch cycle details
+$stmt = $pdo->prepare("SELECT * FROM Cycles WHERE id = ? AND user_id = ?");
+$stmt->execute([$cycle_id, $user_id]);
+$cycle = $stmt->fetch();
+
+if (!$cycle) {
+    die("Cycle not found.");
 }
 
 // Handle update request
@@ -29,7 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $end_date = $_POST["end_date"];
 
     $stmt = $pdo->prepare("UPDATE Cycles SET name = ?, start_date = ?, end_date = ? WHERE id = ? AND user_id = ?");
-    $stmt->execute([$name, $start_date, $end_date, $cycle_id, $user_id]);
+    
+    if (!$stmt->execute([$name, $start_date, $end_date, $cycle_id, $user_id])) {
+        print_r($stmt->errorInfo()); // Debugging
+        die("Error updating the cycle.");
+    }
 
     header("Location: index.php");
     exit;
@@ -54,5 +61,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit" class="btn btn-success">Update</button>
         <a href="index.php" class="btn btn-secondary">Cancel</a>
     </form>
+
+    <script>
+    document.querySelector("[name='start_date']").addEventListener("change", function() {
+        let startDate = new Date(this.value);
+        if (!isNaN(startDate.getTime())) {
+            startDate.setDate(startDate.getDate() + 7);
+            document.querySelector("[name='end_date']").value = startDate.toISOString().split('T')[0];
+        }
+    });
+    </script>
 </body>
 </html>
