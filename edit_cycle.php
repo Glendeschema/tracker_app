@@ -9,11 +9,11 @@ if (!isset($_SESSION["user_id"])) {
 }
 
 $user_id = $_SESSION["user_id"];
-$cycle_id = $_GET['id'] ?? null;
+$cycle_id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 
-// Ensure ID is provided
+// Debugging - Check if ID is passed
 if (!$cycle_id) {
-    die("Invalid request. No cycle ID provided.");
+    die("Invalid request. No cycle ID provided. <a href='index.php'>Go Back</a>");
 }
 
 // Fetch cycle details
@@ -21,8 +21,9 @@ $stmt = $pdo->prepare("SELECT * FROM Cycles WHERE id = ? AND user_id = ?");
 $stmt->execute([$cycle_id, $user_id]);
 $cycle = $stmt->fetch();
 
+// Debugging - Check if cycle exists
 if (!$cycle) {
-    die("Cycle not found.");
+    die("Cycle not found in database. <a href='index.php'>Go Back</a>");
 }
 
 // Handle update request
