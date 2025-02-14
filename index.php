@@ -54,7 +54,8 @@ $cycles = $stmt->fetchAll();
                     <td><?= htmlspecialchars($cycle["start_date"]) ?></td>
                     <td><?= htmlspecialchars($cycle["end_date"]) ?></td>
                     <td>
-                        <a href="edit_cycle.php?id=<?= $cycle['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="edit_cycle.php?id=<?= urlencode($cycle['id']) ?>" class="btn btn-warning btn-sm">Edit</a>
+
                         <form method="post" style="display:inline;">
                             <input type="hidden" name="delete_id" value="<?= $cycle['id'] ?>">
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this cycle?')">Delete</button>
